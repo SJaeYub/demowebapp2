@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    tools {
+        gradle 'gradle8.11'  // Jenkins에 설정된 Gradle 버전
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'DEV', url: 'https://github.com/SJaeYub/demowebapp2.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'gradle clean build'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t demowebapp2:${BUILD_NUMBER} .'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh '''
+                    docker stop demowebapp2 || true
+                    docker rm demowebapp2 || true
+                    docker run -d --name demowebapp2 \
+                    --network demowebapp2-network \
+                    -p 8081:8080 \
+                    -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql_container:3306/demowebapp2 \
+                    -e SPRING_DATASOURCE_USERNAME=demowebappuser \
+                    -e SPRING_DATASOURCE_PASSWORD=demowebappuser.! \
+                    demowebapp2:${BUILD_NUMBER}
+                '''
+            }
+        }
+    }
+}
