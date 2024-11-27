@@ -29,10 +29,6 @@ public class ThreadsService {
         ExecutorService executor = Executors.newFixedThreadPool(userList.size());
 
         for (User user : userList) {
-            logger.info("normal print userlist: {}", user);
-        }
-
-        for (User user : userList) {
             executor.submit(() -> {
                 User userPosition = threadsBean.testGetPosition(user);
                 User callTrading = threadsBean.testCallTrading(userPosition);
