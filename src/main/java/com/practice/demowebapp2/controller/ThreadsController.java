@@ -38,4 +38,12 @@ public class ThreadsController {
             return ResponseEntity.internalServerError().body("Error converting to JSON");
         }
     }
+
+    @GetMapping("/testdbthreads")
+    public ResponseEntity<String> testDbThreads() {
+        List<User> userList = userService.getAllUsers();
+        threadsService.testServiceThreadsTest(userList);
+
+        return ResponseEntity.ok("ok");
+    }
 }

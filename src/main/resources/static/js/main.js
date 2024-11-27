@@ -49,6 +49,7 @@ function setupSignupPage() {
 function setupWelcomePage() {
     const logoutButton = document.getElementById('logoutButton');
     const callThreadTest = document.getElementById('callThreadTest');
+    const callOrderTest = document.getElementById('callOrderTest');
 
     logoutButton.addEventListener('click', function() {
         logout();
@@ -56,6 +57,10 @@ function setupWelcomePage() {
 
     callThreadTest.addEventListener('click', function () {
         fetchAllUsers();
+    });
+
+    callOrderTest.addEventListener('click', function () {
+        testCallOrder();
     });
 }
 
@@ -157,3 +162,13 @@ function displayUsers(users) {
 
     tableContainer.style.display = 'block'; // 테이블 표시
 }
+
+function testCallOrder() {
+    fetch('/api/threads/testdbthreads')
+        .then(response => response.json())
+        .then(result => {
+            alert(result)
+        })
+        .catch(error => console.error('Error:', error));
+}
+
