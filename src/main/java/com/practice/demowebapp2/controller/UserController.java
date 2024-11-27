@@ -1,6 +1,6 @@
 package com.practice.demowebapp2.controller;
 
-import com.practice.demowebapp2.bean.User;
+import com.practice.demowebapp2.model.User;
 import com.practice.demowebapp2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

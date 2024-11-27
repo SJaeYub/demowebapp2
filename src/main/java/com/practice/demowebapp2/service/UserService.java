@@ -3,7 +3,9 @@ package com.practice.demowebapp2.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.practice.demowebapp2.mapper.UserMapper;
-import com.practice.demowebapp2.bean.User;
+import com.practice.demowebapp2.model.User;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -25,5 +27,10 @@ public class UserService {
 
     public boolean isIdAvailable(String userId) {
         return userMapper.findByUserId(userId) == null;
+    }
+
+    public List<User> getAllUsers() {
+        List<User> userList = userMapper.findAll();
+        return userList;
     }
 }

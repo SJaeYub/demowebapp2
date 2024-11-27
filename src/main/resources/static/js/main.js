@@ -48,9 +48,14 @@ function setupSignupPage() {
 
 function setupWelcomePage() {
     const logoutButton = document.getElementById('logoutButton');
+    const callThreadTest = document.getElementById('callThreadTest');
 
     logoutButton.addEventListener('click', function() {
         logout();
+    });
+
+    callThreadTest.addEventListener('click', function () {
+        fetchAllUsers();
     });
 }
 
@@ -127,4 +132,28 @@ function checkSession() {
             }
         })
         .catch(error => console.error('Error:', error));
+}
+
+function fetchAllUsers() {
+    fetch('/api/threads/testuserlist')
+        .then(response => response.json())
+        .then(users => {
+            displayUsers(users);
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function displayUsers(users) {
+    const tableBody = document.querySelector('#userTable tbody');
+    const tableContainer = document.getElementById('userTableContainer');
+    tableBody.innerHTML = ''; // 기존 테이블 내용 초기화
+
+    users.forEach(user => {
+        const row = tableBody.insertRow();
+        row.insertCell(0).textContent = user.id;
+        row.insertCell(1).textContent = user.userId;
+        row.insertCell(2).textContent = user.email;
+    });
+
+    tableContainer.style.display = 'block'; // 테이블 표시
 }

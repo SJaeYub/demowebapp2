@@ -1,4 +1,4 @@
-package com.practice.demowebapp2.bean;
+package com.practice.demowebapp2.model;
 
 import lombok.Data;
 

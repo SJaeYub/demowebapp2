@@ -9,4 +9,8 @@
         INSERT INTO users (userId, password, email)
         VALUES (#{userId}, #{password}, #{email})
     </insert>
+
+    <select id="findAll" resultType="User">
+        SELECT * FROM users
+    </select>
 </mapper>
