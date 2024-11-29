@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.demowebapp2.mapper.RegistrationMapper">
+
+    <select id="isRegistrationCodeValid" parameterType="string" resultType="boolean">
+        SELECT
+            CASE WHEN COUNT(*) > 0 THEN is_active ELSE false END
+        FROM
+            registration_codes
+        WHERE
+            code = #{code}
+    </select>
+
+    <select id="getRegistrationCodeRoleName" parameterType="string" resultType="string">
+        SELECT
+            mr.role_name
+        FROM
+            registration_codes rc
+                JOIN
+            member_roles mr ON rc.role_id = mr.role_id
+        WHERE
+            rc.code = #{code}
+    </select>
+
+    <select id="getRegistrationCodeRoleId" parameterType="string" resultType="java.lang.Integer">
+        SELECT
+            mr.role_id
+        FROM
+            registration_codes rc
+                JOIN
+            member_roles mr ON rc.role_id = mr.role_id
+        WHERE
+            rc.code = #{code}
+    </select>
+
+</mapper>

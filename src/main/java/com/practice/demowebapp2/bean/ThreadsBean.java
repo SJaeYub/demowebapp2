@@ -1,10 +1,9 @@
 package com.practice.demowebapp2.bean;
 
-import com.practice.demowebapp2.model.TempUMClient;
-import com.practice.demowebapp2.model.User;
+import com.practice.demowebapp2.dto.Member;
+import com.practice.demowebapp2.dto.TempUMClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,10 +17,10 @@ public class ThreadsBean {
 
     ExecutorService executor;
 
-    public void printUserData(List<User> userList) {
-        executor = Executors.newFixedThreadPool(userList.size());
+    public void printUserData(List<Member> memberList) {
+        executor = Executors.newFixedThreadPool(memberList.size());
 
-        for (User user : userList) {
+        for (Member member : memberList) {
 //            executor.submit(() -> printUserData(user));
             executor.submit(() -> {
                 logger.info("============================{} Test Start============================", Thread.currentThread().getName());
@@ -30,7 +29,7 @@ public class ThreadsBean {
             });
         }
 
-        for (User user : userList) {
+        for (Member member : memberList) {
             logger.info("no threads call start: {}", Thread.currentThread().getName());
             logger.info("no threads call end: {}", Thread.currentThread().getName());
         }
@@ -38,21 +37,21 @@ public class ThreadsBean {
         executor.shutdown();
     }
 
-    public User testCallTrading(User user) {
-        TempUMClient tempUMClient = new TempUMClient(user.getUserId(), user.getPassword());
-        logger.info("ThreadName: {} - callOrder: {}", Thread.currentThread().getName(), user.getUserId());
+    public Member testCallTrading(Member member) {
+        TempUMClient tempUMClient = new TempUMClient(member.getUserId(), member.getPassword());
+        logger.info("ThreadName: {} - callOrder: {}", Thread.currentThread().getName(), member.getUserId());
 
-        return user;
+        return member;
     }
 
-    public User testGetPosition(User user) {
-        TempUMClient tempUMClient = new TempUMClient(user.getUserId(), user.getPassword());
-        logger.info("ThreadName: {} - userPosition: {}", Thread.currentThread().getName(), user.getUserId());
+    public Member testGetPosition(Member member) {
+        TempUMClient tempUMClient = new TempUMClient(member.getUserId(), member.getPassword());
+        logger.info("ThreadName: {} - userPosition: {}", Thread.currentThread().getName(), member.getUserId());
 
-        return user;
+        return member;
     }
 
-    private void printUserData(User user) {
+    private void printUserData(Member member) {
         logger.info("============================{} Test Start============================", Thread.currentThread().getName());
 //        logger.info(user.toString());
         logger.info("============================{} Test End===========================", Thread.currentThread().getName());

@@ -1,7 +1,7 @@
 package com.practice.demowebapp2.service;
 
 import com.practice.demowebapp2.bean.ThreadsBean;
-import com.practice.demowebapp2.model.User;
+import com.practice.demowebapp2.dto.Member;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +19,19 @@ public class ThreadsService {
     @Autowired
     ThreadsBean threadsBean;
 
-    public List<User> callThreadsTest(List<User> userList) {
-        threadsBean.printUserData(userList);
+    public List<Member> callThreadsTest(List<Member> memberList) {
+        threadsBean.printUserData(memberList);
 
-        return userList;
+        return memberList;
     }
 
-    public void testServiceThreadsTest(List<User> userList) {
-        ExecutorService executor = Executors.newFixedThreadPool(userList.size());
+    public void testServiceThreadsTest(List<Member> memberList) {
+        ExecutorService executor = Executors.newFixedThreadPool(memberList.size());
 
-        for (User user : userList) {
+        for (Member member : memberList) {
             executor.submit(() -> {
-                User userPosition = threadsBean.testGetPosition(user);
-                User callTrading = threadsBean.testCallTrading(userPosition);
+                Member memberPosition = threadsBean.testGetPosition(member);
+                Member callTrading = threadsBean.testCallTrading(memberPosition);
             });
         }
 

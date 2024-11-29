@@ -1,7 +1,6 @@
-package com.practice.demowebapp2.model;
+package com.practice.demowebapp2.dto;
 
 import lombok.Data;
-import org.springframework.stereotype.Component;
 
 //@Component
 @Data

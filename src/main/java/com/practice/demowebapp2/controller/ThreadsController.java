@@ -2,9 +2,9 @@ package com.practice.demowebapp2.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.practice.demowebapp2.model.User;
+import com.practice.demowebapp2.dto.Member;
 import com.practice.demowebapp2.service.ThreadsService;
-import com.practice.demowebapp2.service.UserService;
+import com.practice.demowebapp2.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,16 +21,16 @@ public class ThreadsController {
     private ThreadsService threadsService;
 
     @Autowired
-    private UserService userService;
+    private MemberService memberService;
 
     @GetMapping("/testuserlist")
     public ResponseEntity<String> testUserData() {
-        List<User> userList = userService.getAllUsers();
-        List<User> users = threadsService.callThreadsTest(userList);
+        List<Member> memberList = memberService.getAllUsers();
+        List<Member> members = threadsService.callThreadsTest(memberList);
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            String jsonUsers = objectMapper.writeValueAsString(users);
+            String jsonUsers = objectMapper.writeValueAsString(members);
             return ResponseEntity.ok()
                     .body(jsonUsers);
         } catch (JsonProcessingException e) {
@@ -41,8 +41,8 @@ public class ThreadsController {
 
     @GetMapping("/testdbthreads")
     public ResponseEntity<String> testDbThreads() {
-        List<User> userList = userService.getAllUsers();
-        threadsService.testServiceThreadsTest(userList);
+        List<Member> memberList = memberService.getAllUsers();
+        threadsService.testServiceThreadsTest(memberList);
 
         return ResponseEntity.ok("ok");
     }
