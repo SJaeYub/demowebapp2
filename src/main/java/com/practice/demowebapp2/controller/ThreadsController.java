@@ -2,6 +2,8 @@ package com.practice.demowebapp2.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.practice.demowebapp2.dto.Member;
 import com.practice.demowebapp2.service.ThreadsService;
 import com.practice.demowebapp2.service.MemberService;
@@ -29,6 +31,8 @@ public class ThreadsController {
         List<Member> members = threadsService.callThreadsTest(memberList);
 
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         try {
             String jsonUsers = objectMapper.writeValueAsString(members);
             return ResponseEntity.ok()

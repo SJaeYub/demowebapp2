@@ -181,9 +181,14 @@ function displayUsers(users) {
 
     users.forEach(user => {
         const row = tableBody.insertRow();
-        row.insertCell(0).textContent = user.id;
+        row.insertCell(0).textContent = user.memberId;
         row.insertCell(1).textContent = user.userId;
-        row.insertCell(2).textContent = user.email;
+        row.insertCell(2).textContent = user.name;
+        row.insertCell(3).textContent = user.englishName;
+        row.insertCell(4).textContent = user.email;
+        row.insertCell(5).textContent = user.joinDate ? new Date(user.joinDate).toLocaleString() : 'N/A';
+        row.insertCell(6).textContent = user.status;
+        row.insertCell(7).textContent = user.subscriptionStatus;
     });
 
     tableContainer.style.display = 'block'; // 테이블 표시
