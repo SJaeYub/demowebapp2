@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <!-- ... (기존 코드 유지) ... -->
+    <!-- ... (기존 코드 유지) ... -->
 </head>
 <body>
 <h1>환영합니다!</h1>
@@ -10,25 +10,55 @@
 <button id="callOrderTest">스레드 오더 테스트</button>
 <button id="adminButton" style="display: none;">관리자 화면</button>
 
+
+<!-- API 키 정보 표시 섹션 추가 -->
+<!-- API 키 정보 표시 섹션 수정 -->
+<div id="apiKeyInfo">
+    <h3>API 키 정보</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>API 키</th>
+            <th>Sec 키</th>
+            <th>거래소 정보</th>
+            <th>상태</th>
+        </tr>
+        </thead>
+        <tbody id="apiKeyTableBody">
+        <!-- API 키 정보가 여기에 동적으로 추가됩니다 -->
+        </tbody>
+    </table>
+</div>
+
+<!-- API 키 추가 폼 -->
+<div id="addApiKeyForm">
+    <h3>API 키 추가</h3>
+    <input type="text" id="newApiKey" placeholder="API 키">
+    <input type="text" id="newSecKey" placeholder="Sec 키">
+    <input type="text" id="exchangeInfo" placeholder="거래소 정보">
+    <button id="addApiKeyButton">API 키 추가</button>
+</div>
+
+
 <div id="userTableContainer" style="display:none;">
-  <h2>사용자 목록</h2>
-  <table id="userTable">
-    <thead>
-    <tr>
-      <th>Member ID</th>
-      <th>User ID</th>
-      <th>Name</th>
-      <th>English Name</th>
-      <th>Email</th>
-      <th>Join Date</th>
-      <th>Status</th>
-      <th>Subscription Status</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- 여기에 사용자 데이터가 동적으로 추가됩니다 -->
-    </tbody>
-  </table>
+    <h2>사용자 목록</h2>
+    <table id="userTable">
+        <thead>
+        <tr>
+            <th>Member ID</th>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>English Name</th>
+            <th>Email</th>
+            <th>Join Date</th>
+            <th>Status</th>
+            <th>Subscription Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 여기에 사용자 데이터가 동적으로 추가됩니다 -->
+        </tbody>
+    </table>
 </div>
 
 <script src="/js/main.js"></script>

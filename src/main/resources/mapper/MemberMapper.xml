@@ -26,4 +26,15 @@
         WHERE m.member_id = #{memberId}
     </select>
 
+    <select id="findApiKeysByMemberId" resultType="com.practice.demowebapp2.dto.MemberKey">
+        SELECT *
+        FROM member_keys
+        WHERE member_id = #{memberId}
+          AND status = 'active'
+    </select>
+
+    <insert id="insertApiKey" parameterType="com.practice.demowebapp2.dto.MemberKey">
+        INSERT INTO member_keys (member_id, api_key, sec_key, status, exchange_info)
+        VALUES (#{memberId}, #{apiKey}, #{secKey}, 'active', #{exchangeInfo})
+    </insert>
 </mapper>

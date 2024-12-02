@@ -90,6 +90,13 @@ function setupWelcomePage() {
             }
         })
         .catch(error => console.error('Error:', error));
+
+    // API 키 정보 가져오기
+    fetchApiKeyInfo();
+
+    // API 키 추가 버튼 이벤트 리스너
+    const addApiKeyButton = document.getElementById('addApiKeyButton');
+    addApiKeyButton.addEventListener('click', addApiKey);
 }
 
 function login(userId, password) {
@@ -219,3 +226,43 @@ function testCallOrder() {
         .catch(error => console.error('Error:', error));
 }
 
+function fetchApiKeyInfo() {
+    fetch('/api/member/api-key-info')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('apiKeyTableBody');
+            tableBody.innerHTML = ''; // 기존 내용 초기화
+            data.forEach(key => {
+                const row = `
+          <tr>
+            <td>${key.apiKey}</td>
+            <td>${key.secKey}</td>
+            <td>${key.exchangeInfo || 'N/A'}</td>
+            <td>${key.status}</td>
+          </tr>
+        `;
+                tableBody.innerHTML += row;
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function addApiKey() {
+    const newApiKey = document.getElementById('newApiKey').value;
+    const newSecKey = document.getElementById('newSecKey').value;
+    const exchangeInfo = document.getElementById('exchangeInfo').value;
+
+    fetch('/api/member/add-api-key', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({apiKey: newApiKey, secKey: newSecKey, exchangeInfo: exchangeInfo}),
+    })
+        .then(response => response.text())
+        .then(result => {
+            alert(result);
+            fetchApiKeyInfo();
+        })
+        .catch(error => console.error('Error:', error));
+}

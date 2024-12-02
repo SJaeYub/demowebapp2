@@ -1,5 +1,6 @@
 package com.practice.demowebapp2.service;
 
+import com.practice.demowebapp2.dto.MemberKey;
 import com.practice.demowebapp2.mapper.RegistrationMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,5 +62,13 @@ public class MemberService {
     public Member getMemberInfo(String userId, String password) {
         Member member = memberMapper.findByUserId(userId);
         return member;
+    }
+
+    public List<MemberKey> getApiKeyInfo(Integer memberId) {
+        return memberMapper.findApiKeysByMemberId(memberId);
+    }
+
+    public boolean addApiKey(MemberKey memberKey) {
+        return memberMapper.insertApiKey(memberKey) > 0;
     }
 }

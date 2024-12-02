@@ -1,6 +1,7 @@
 package com.practice.demowebapp2.controller;
 
 import com.practice.demowebapp2.dto.Member;
+import com.practice.demowebapp2.dto.MemberKey;
 import com.practice.demowebapp2.service.CodeService;
 import com.practice.demowebapp2.service.MemberService;
 import org.slf4j.Logger;
@@ -10,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/member")
@@ -70,5 +73,26 @@ public class MemberController {
         Member memberInfo = (Member) session.getAttribute("memberInfo");
         boolean isAdmin = memberService.isAdminUser(memberInfo.getMemberId());
         return ResponseEntity.ok(isAdmin);
+    }
+
+    @GetMapping("/api-key-info")
+    public ResponseEntity<?> getApiKeyInfo(HttpSession session) {
+        Member memberInfo = (Member) session.getAttribute("memberInfo");
+        Integer memberId = memberInfo.getMemberId();
+        List<MemberKey> memberKeys = memberService.getApiKeyInfo(memberId);
+        return ResponseEntity.ok(memberKeys);
+    }
+
+    @PostMapping("/add-api-key")
+    public ResponseEntity<?> addApiKey(@RequestBody MemberKey memberKey, HttpSession session) {
+        Member memberInfo = (Member) session.getAttribute("memberInfo");
+        Integer memberId = memberInfo.getMemberId();
+        memberKey.setMemberId(memberId);
+        boolean result = memberService.addApiKey(memberKey);
+        if (result) {
+            return ResponseEntity.ok("API 키가 성공적으로 추가되었습니다.");
+        } else {
+            return ResponseEntity.badRequest().body("API 키 추가에 실패했습니다.");
+        }
     }
 }

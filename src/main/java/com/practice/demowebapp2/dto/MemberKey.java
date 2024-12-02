@@ -12,12 +12,13 @@ public class MemberKey {
     private String secKey;
     private KeyStatus status;
     private LocalDateTime createdAt;
+    private String exchangeInfo;
 
     // Getters and setters
     // Constructor
     // toString method
 
     public enum KeyStatus {
-        ACTIVE, INACTIVE
+        active, inactive
     }
 }
