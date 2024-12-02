@@ -62,6 +62,7 @@ function setupWelcomePage() {
     const logoutButton = document.getElementById('logoutButton');
     const callThreadTest = document.getElementById('callThreadTest');
     const callOrderTest = document.getElementById('callOrderTest');
+    const adminButton = document.getElementById('adminButton');
 
     logoutButton.addEventListener('click', function () {
         logout();
@@ -74,6 +75,12 @@ function setupWelcomePage() {
     callOrderTest.addEventListener('click', function () {
         testCallOrder();
     });
+
+    if (adminButton) {
+        adminButton.addEventListener('click', () => {
+            window.location.href = '/admin';
+        });
+    }
 }
 
 function login(userId, password) {
