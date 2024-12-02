@@ -76,11 +76,20 @@ function setupWelcomePage() {
         testCallOrder();
     });
 
-    if (adminButton) {
-        adminButton.addEventListener('click', () => {
-            window.location.href = '/admin';
-        });
-    }
+    // admin 권한 체크 및 버튼 표시/숨김 처리
+    fetch('/api/member/check-admin')
+        .then(response => response.json())
+        .then(isAdmin => {
+            if (isAdmin) {
+                adminButton.style.display = 'block';
+                adminButton.addEventListener('click', () => {
+                    window.location.href = '/admin';
+                });
+            } else {
+                adminButton.style.display = 'none';
+            }
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 function login(userId, password) {

@@ -26,7 +26,7 @@ public class MemberController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Member member) {
         logger.info("register request received | Member = {}", member);
-        if(member.getRegistrationCode().equals("")) {
+        if (member.getRegistrationCode().equals("")) {
             member.setRegistrationCode("NORMAL");
         }
         if (memberService.registerUser(member)) {
@@ -63,5 +63,12 @@ public class MemberController {
     @GetMapping("/check-code")
     public ResponseEntity<Boolean> checkCodeAvailability(@RequestParam String registerCode) {
         return ResponseEntity.ok(codeService.isRegistrationCodeValid(registerCode));
+    }
+
+    @GetMapping("/check-admin")
+    public ResponseEntity<Boolean> checkAdminStatus(HttpSession session) {
+        Member memberInfo = (Member) session.getAttribute("memberInfo");
+        boolean isAdmin = memberService.isAdminUser(memberInfo.getMemberId());
+        return ResponseEntity.ok(isAdmin);
     }
 }
