@@ -26,6 +26,9 @@ public class MemberController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Member member) {
         logger.info("register request received | Member = {}", member);
+        if(member.getRegistrationCode().equals("")) {
+            member.setRegistrationCode("NORMAL");
+        }
         if (memberService.registerUser(member)) {
             return ResponseEntity.ok("User registered successfully");
         } else {
