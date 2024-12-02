@@ -1,5 +1,6 @@
 package com.practice.demowebapp2.mapper;
 
+import com.practice.demowebapp2.dto.RegistrationCode;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,4 +11,5 @@ public interface RegistrationMapper {
 
     Integer getRegistrationCodeRoleId(@Param("code") String code);
 
+    RegistrationCode findByCode(String code);
 }

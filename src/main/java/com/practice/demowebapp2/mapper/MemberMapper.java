@@ -13,4 +13,6 @@ public interface MemberMapper {
     void save(Member memberDTO);
 
     List<Member> findAll();
+
+    Member findByIdWithRole(Integer memberId);
 }

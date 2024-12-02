@@ -3,34 +3,31 @@
 <mapper namespace="com.practice.demowebapp2.mapper.RegistrationMapper">
 
     <select id="isRegistrationCodeValid" parameterType="string" resultType="boolean">
-        SELECT
-            CASE WHEN COUNT(*) > 0 THEN is_active ELSE false END
-        FROM
-            registration_codes
-        WHERE
-            code = #{code}
+        SELECT CASE WHEN COUNT(*) > 0 THEN is_active ELSE false END
+        FROM registration_codes
+        WHERE code = #{code}
     </select>
 
     <select id="getRegistrationCodeRoleName" parameterType="string" resultType="string">
-        SELECT
-            mr.role_name
-        FROM
-            registration_codes rc
-                JOIN
-            member_roles mr ON rc.role_id = mr.role_id
-        WHERE
-            rc.code = #{code}
+        SELECT mr.role_name
+        FROM registration_codes rc
+                 JOIN
+             member_roles mr ON rc.role_id = mr.role_id
+        WHERE rc.code = #{code}
     </select>
 
     <select id="getRegistrationCodeRoleId" parameterType="string" resultType="java.lang.Integer">
-        SELECT
-            mr.role_id
-        FROM
-            registration_codes rc
-                JOIN
-            member_roles mr ON rc.role_id = mr.role_id
-        WHERE
-            rc.code = #{code}
+        SELECT mr.role_id
+        FROM registration_codes rc
+                 JOIN
+             member_roles mr ON rc.role_id = mr.role_id
+        WHERE rc.code = #{code}
     </select>
 
+    <select id="findByCode" resultType="com.practice.demowebapp2.dto.RegistrationCode">
+        SELECT *
+        FROM registration_codes
+        WHERE code = #{code}
+          AND is_active = true
+    </select>
 </mapper>

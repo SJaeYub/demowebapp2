@@ -37,7 +37,9 @@ public class MemberController {
     public ResponseEntity<String> login(@RequestBody Member member, HttpSession session) {
         logger.info("Login request received | Member = {}", member);
         if (memberService.authenticateUser(member.getUserId(), member.getPassword())) {
+            Member memberInfo = memberService.getMemberInfo(member.getUserId(), member.getPassword());
             session.setAttribute("userSession", member.getUserId());
+            session.setAttribute("memberInfo", memberInfo);
             return ResponseEntity.ok("Login successful");
         } else {
             return ResponseEntity.badRequest().body("Invalid credentials");

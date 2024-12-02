@@ -51,4 +51,15 @@ public class MemberService {
         List<Member> memberList = memberMapper.findAll();
         return memberList;
     }
+
+    public boolean isAdminUser(Integer memberId) {
+        logger.info("Checking if member is admin in MemberService");
+        Member member = memberMapper.findByIdWithRole(memberId);
+        return member != null && member.getRoleId() == 1; // ADMIN role_id는 1입니다
+    }
+
+    public Member getMemberInfo(String userId, String password) {
+        Member member = memberMapper.findByUserId(userId);
+        return member;
+    }
 }
