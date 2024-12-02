@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const currentPath = window.location.pathname;
 
     if (currentPath === '/') {
@@ -16,14 +16,14 @@ function setupLoginPage() {
     const loginForm = document.getElementById('loginForm');
     const signupButton = document.getElementById('signupButton');
 
-    loginForm.addEventListener('submit', function(e) {
+    loginForm.addEventListener('submit', function (e) {
         e.preventDefault();
         const userId = document.getElementById('userId').value;
         const password = document.getElementById('password').value;
         login(userId, password);
     });
 
-    signupButton.addEventListener('click', function() {
+    signupButton.addEventListener('click', function () {
         window.location.href = '/signup';
     });
 }
@@ -31,36 +31,58 @@ function setupLoginPage() {
 function setupSignupPage() {
     const signupForm = document.getElementById('signupForm');
     const checkIdButton = document.getElementById('checkIdButton');
+    const checkCodeButton = document.getElementById('checkCodeButton');
 
-    signupForm.addEventListener('submit', function(e) {
+    signupForm.addEventListener('submit', function (e) {
         e.preventDefault();
         const userId = document.getElementById('userId').value;
         const password = document.getElementById('password').value;
         const email = document.getElementById('email').value;
-        register(userId, password, email);
+        const name = document.getElementById('name').value;
+        const englishName = document.getElementById('engName').value;
+        const registrationCode = document.getElementById('registerCode').value;
+
+        console.log(registrationCode);
+
+        register(userId, password, email, name, englishName, registrationCode);
     });
 
-    checkIdButton.addEventListener('click', function() {
+    checkIdButton.addEventListener('click', function () {
         const userId = document.getElementById('userId').value;
         checkIdAvailability(userId);
     });
+
+    checkCodeButton.addEventListener('click', function () {
+        const registerCode = document.getElementById('registerCode').value;
+        checkCodeAvailability(registerCode);
+    })
 }
 
 function setupWelcomePage() {
     const logoutButton = document.getElementById('logoutButton');
+    const callThreadTest = document.getElementById('callThreadTest');
+    const callOrderTest = document.getElementById('callOrderTest');
 
-    logoutButton.addEventListener('click', function() {
+    logoutButton.addEventListener('click', function () {
         logout();
+    });
+
+    callThreadTest.addEventListener('click', function () {
+        fetchAllUsers();
+    });
+
+    callOrderTest.addEventListener('click', function () {
+        testCallOrder();
     });
 }
 
 function login(userId, password) {
-    fetch('/api/user/login', {
+    fetch('/api/member/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, password }),
+        body: JSON.stringify({userId, password}),
     })
         .then(response => response.text())
         .then(result => {
@@ -73,13 +95,14 @@ function login(userId, password) {
         .catch(error => console.error('Error:', error));
 }
 
-function register(userId, password, email) {
-    fetch('/api/user/register', {
+function register(userId, password, email, name, englishName, registrationCode) {
+    console.log(userId + " " + password + " " + email + " " + name + " " + engName + " " + registrationCode)
+    fetch('/api/member/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, password, email }),
+        body: JSON.stringify({userId, password, email, name, englishName, registrationCode}),
     })
         .then(response => response.text())
         .then(result => {
@@ -94,7 +117,7 @@ function register(userId, password, email) {
 }
 
 function checkIdAvailability(userId) {
-    fetch(`/api/user/check-id?userId=${userId}`)
+    fetch(`/api/member/check-id?userId=${userId}`)
         .then(response => response.json())
         .then(available => {
             if (available) {
@@ -106,8 +129,21 @@ function checkIdAvailability(userId) {
         .catch(error => console.error('Error:', error));
 }
 
+function checkCodeAvailability(registerCode) {
+    fetch(`/api/member/check-code?registerCode=${registerCode}`)
+        .then(response => response.json())
+        .then(available => {
+            if (available) {
+                alert('유효한 등록 CODE입니다.');
+            } else {
+                alert('잘못된 등록 CODE입니다.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
 function logout() {
-    fetch('/api/user/logout', { method: 'POST' })
+    fetch('/api/member/logout', {method: 'POST'})
         .then(response => response.text())
         .then(result => {
             alert(result);
@@ -128,3 +164,42 @@ function checkSession() {
         })
         .catch(error => console.error('Error:', error));
 }
+
+function fetchAllUsers() {
+    fetch('/api/threads/testuserlist')
+        .then(response => response.json())
+        .then(users => {
+            displayUsers(users);
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function displayUsers(users) {
+    const tableBody = document.querySelector('#userTable tbody');
+    const tableContainer = document.getElementById('userTableContainer');
+    tableBody.innerHTML = ''; // 기존 테이블 내용 초기화
+
+    users.forEach(user => {
+        const row = tableBody.insertRow();
+        row.insertCell(0).textContent = user.memberId;
+        row.insertCell(1).textContent = user.userId;
+        row.insertCell(2).textContent = user.name;
+        row.insertCell(3).textContent = user.englishName;
+        row.insertCell(4).textContent = user.email;
+        row.insertCell(5).textContent = user.joinDate ? new Date(user.joinDate).toLocaleString() : 'N/A';
+        row.insertCell(6).textContent = user.status;
+        row.insertCell(7).textContent = user.subscriptionStatus;
+    });
+
+    tableContainer.style.display = 'block'; // 테이블 표시
+}
+
+function testCallOrder() {
+    fetch('/api/threads/testdbthreads')
+        .then(response => response.json())
+        .then(result => {
+            alert(result)
+        })
+        .catch(error => console.error('Error:', error));
+}
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.demowebapp2.mapper.MemberMapper">
+
+    <select id="findByUserId" parameterType="com.practice.demowebapp2.dto.Member" resultType="com.practice.demowebapp2.dto.Member">
+        SELECT * FROM members WHERE user_id = #{userId}
+    </select>
+
+    <insert id="save" parameterType="com.practice.demowebapp2.dto.Member">
+        INSERT INTO members (user_id, name, english_name, email, password, registration_code, role_id)
+        VALUES (#{userId}, #{name}, #{englishName}, #{email}, #{password}, #{registrationCode}, #{roleId})
+    </insert>
+
+    <select id="findAll" resultType="com.practice.demowebapp2.dto.Member">
+        SELECT * FROM members
+    </select>
+
+</mapper>
