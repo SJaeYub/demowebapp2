@@ -12,6 +12,4 @@ public interface MemberMapper {
     void save(Member memberDTO);
     List<Member> findAll();
     Member findByIdWithRole(Integer memberId);
-    List<MemberKey> findApiKeysByMemberId(Integer memberId);
-    int insertApiKey(MemberKey memberKey);
 }

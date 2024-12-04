@@ -64,11 +64,4 @@ public class MemberService {
         return member;
     }
 
-    public List<MemberKey> getApiKeyInfo(Integer memberId) {
-        return memberMapper.findApiKeysByMemberId(memberId);
-    }
-
-    public boolean addApiKey(MemberKey memberKey) {
-        return memberMapper.insertApiKey(memberKey) > 0;
-    }
 }

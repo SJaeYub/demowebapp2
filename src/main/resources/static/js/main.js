@@ -227,7 +227,7 @@ function testCallOrder() {
 }
 
 function fetchApiKeyInfo() {
-    fetch('/api/member/api-key-info')
+    fetch('/api/api-key/api-key-info')
         .then(response => response.json())
         .then(data => {
             const tableBody = document.getElementById('apiKeyTableBody');
@@ -252,7 +252,7 @@ function addApiKey() {
     const newSecKey = document.getElementById('newSecKey').value;
     const exchangeInfo = document.getElementById('exchangeInfo').value;
 
-    fetch('/api/member/add-api-key', {
+    fetch('/api/api-key/add-api-key', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

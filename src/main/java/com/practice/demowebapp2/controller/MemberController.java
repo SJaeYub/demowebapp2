@@ -74,25 +74,4 @@ public class MemberController {
         boolean isAdmin = memberService.isAdminUser(memberInfo.getMemberId());
         return ResponseEntity.ok(isAdmin);
     }
-
-    @GetMapping("/api-key-info")
-    public ResponseEntity<?> getApiKeyInfo(HttpSession session) {
-        Member memberInfo = (Member) session.getAttribute("memberInfo");
-        Integer memberId = memberInfo.getMemberId();
-        List<MemberKey> memberKeys = memberService.getApiKeyInfo(memberId);
-        return ResponseEntity.ok(memberKeys);
-    }
-
-    @PostMapping("/add-api-key")
-    public ResponseEntity<?> addApiKey(@RequestBody MemberKey memberKey, HttpSession session) {
-        Member memberInfo = (Member) session.getAttribute("memberInfo");
-        Integer memberId = memberInfo.getMemberId();
-        memberKey.setMemberId(memberId);
-        boolean result = memberService.addApiKey(memberKey);
-        if (result) {
-            return ResponseEntity.ok("API 키가 성공적으로 추가되었습니다.");
-        } else {
-            return ResponseEntity.badRequest().body("API 키 추가에 실패했습니다.");
-        }
-    }
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.demowebapp2.mapper.APIKeyMapper">
+
+    <select id="findApiKeysByMemberId" resultType="com.practice.demowebapp2.dto.MemberKey">
+        SELECT *
+        FROM member_keys
+        WHERE member_id = #{memberId}
+          AND status = 'active'
+    </select>
+
+    <insert id="insertApiKey" parameterType="com.practice.demowebapp2.dto.MemberKey">
+        INSERT INTO member_keys (member_id, api_key, sec_key, status, exchange_info)
+        VALUES (#{memberId}, #{apiKey}, #{secKey}, 'active', #{exchangeInfo})
+    </insert>
+</mapper>
